@@ -16,6 +16,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var progressBar: ProgressBar
     private lateinit var startButton: Button
     private lateinit var randomButton: Button
+    private lateinit var nums: List<Int>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,12 +27,14 @@ class MainActivity : AppCompatActivity() {
         dataSizeInput = findViewById(R.id.dataSizeInput)
         progressBar = findViewById(R.id.progressBar)
 
-        // init one instance of random
         var ran = Random()
-
         randomButton = findViewById(R.id.randomizeButton)
         randomButton.setOnClickListener {
-            var nums = (1..dataSizeInput.text.toString().toInt()).map { ran.nextInt() }
+            if (dataSizeInput.text.isEmpty()) {
+                return@setOnClickListener
+            }
+
+            nums = (1..dataSizeInput.text.toString().toInt()).map { ran.nextInt() }
             dataTV.text = nums.toString()
         }
 
@@ -42,11 +45,12 @@ class MainActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            var nums = (1..dataSizeInput.text.toString().toInt()).map { ran.nextInt() }
-            dataTV.text = nums.toString()
-
+            val startTime = System.currentTimeMillis()
             val bubbleSort = bubbleSort(nums as ArrayList<Int>, progressBar)
+            val timeTaken = System.currentTimeMillis() - startTime
+
             dataTV.text = bubbleSort.toString()
+            estimatedTimeTV.text = "Elapsed time: ${timeTaken.toString()}ms"
         }
     }
 }
