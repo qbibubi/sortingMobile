@@ -15,6 +15,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var dataSizeInput: EditText
     private lateinit var progressBar: ProgressBar
     private lateinit var startButton: Button
+    private lateinit var randomButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,9 +26,14 @@ class MainActivity : AppCompatActivity() {
         dataSizeInput = findViewById(R.id.dataSizeInput)
         progressBar = findViewById(R.id.progressBar)
 
+        // init one instance of random
         var ran = Random()
-        var nums = (1..dataSizeInput.text.toString().toInt()).map { ran.nextInt() }
-        dataTV.text = nums.toString()
+
+        randomButton = findViewById(R.id.randomizeButton)
+        randomButton.setOnClickListener {
+            var nums = (1..dataSizeInput.text.toString().toInt()).map { ran.nextInt() }
+            dataTV.text = nums.toString()
+        }
 
         startButton = findViewById(R.id.startButton)
         startButton.setOnClickListener {
